@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul>
+    {% for user in list_ %}
+    <li><p>id: {{ user.id }}, email: {{ user.email }}</p>
+        <ul>
+            <li>Name: {{ user.profiles.name }}</li>
+            <li>Age: {{ user.profiles.old }}</li>
+            <li>City: {{ user.profiles.city }}</li>
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

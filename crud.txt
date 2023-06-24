@@ -1,0 +1,50 @@
+(venv) serhii@serhii-Lenovo-ideapad-100-15IBD:~/Desktop/flask_sqlalchemy$ flask shell
+Python 3.8.10 (default, May 26 2023, 14:05:08)
+[GCC 9.4.0] on linux
+App: app
+Instance: /home/serhii/Desktop/flask_sqlalchemy/instance
+>>> from app import db, Users, Profiles
+>>> Users.query.all()
+[users 1, users 2]
+>>> result = Users.query.all()
+>>> result[1].email
+'siuk@gmail.com'
+>>> first_ = Users.query.first()
+>>> first_.email
+'s.ovsiuk@gmail.com'
+>>>
+>>> Users.query.filter_by(id=0).all()
+[]
+>>> Users.query.filter(Users.id==0).all()
+[]
+>>>
+>>> Users.query.filter(Users.id==1).all()
+[users 1]
+>>> Users.query.filter(Users.id>1).all()
+[users 2]
+>>> Users.query.filter(Users.id>1).all()
+[users 2]
+>> Users.query.order_by(Users.date).all()
+[users 1, users 2]
+>>> Users.query.order_by(Users.date.desc()).all()
+[users 2, users 1]
+>>>
+>>> Users.query.get(2)
+users 2
+
+>>> result = db.session.query(Users, Profiles).join(Profiles, Users.id==Profiles.user_id).all()
+>>> result
+[(users 1, <profiles 1>), (users 2, <profiles 2>)]
+>>> result[0].Users.email
+'s.ovsiuk@gmail.com'
+>>> result[0].Profiles.name
+'Serhii Ovsiuk'
+# after:  profiles = db.relationship('Profiles', backref='users', uselist=False)
+>>> result = Users.query.all()
+>>> result[0].profiles
+<profiles 1>
+
+>>> result[0].profiles.name
+'Serhii Ovsiuk'
+>>> result[1].profiles.name
+'About Flask'
